@@ -14,6 +14,7 @@ const formSubmissionResult = (props) => {
         formResult = 
             <Aux>
                 <p>There was some error submitting Your form</p>
+                <p>Try with different email or mobile no</p>
             </Aux>
     }
 

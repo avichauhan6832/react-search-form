@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import axios from '../../axios-form';
 
 import Aux from '../../hoc/Auxiliary/Auxiliary';
 import Modal from '../../components/UI/Modal/Modal';
 import FormSubmission from '../../components/FormSubmission/FormSubmission';
 import Button from '../../components/UI/Button/Button';
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 
 
 function FormPage() {
 
     let [formSubmissionResult, setFormSubmissionResult] = useState(false);
-    
+    let [loading, setLoading] = useState(false);
     let [showResult, setShowResult] = useState(false);
 
     useEffect(() => {
@@ -25,13 +27,32 @@ function FormPage() {
     const UserForm = () => {
         const { handleSubmit, register, errors } = useForm();
         const onSubmit = values => {
-            if(values["email"] === "test1@test.com") {
-                setFormSubmissionResult(false);
-            } else {
-                setFormSubmissionResult(true);
-            }
+            setLoading(true);
             setShowResult(true);
-            // console.log(values["email"]);
+            values.middleName = "test";
+            values.lastName = "test";
+            values.mobileNumber = "1234567890";
+            values.address = "test test test";
+            values.city = "ahmedabad";
+            values.state = "guj";
+            values.postalCode = "123456";
+            values.education = "Graduate";
+            values.gender = "Female";
+            values.occupation = "Salaried";
+            console.log(values);
+            axios.post('/users', values).then((response) => {
+              console.log(response);
+              setLoading(false);
+              if(response.status === 200)
+              {
+                setFormSubmissionResult(true);
+              } else {
+                setFormSubmissionResult(false);
+              }
+            }).catch((err) => {
+              setLoading(false);
+              console.log(err);
+            })
             // console.log(values["username"]);
             // console.log(formSubmissionResult);
             // //console.log(showResult);
@@ -52,26 +73,31 @@ function FormPage() {
             {errors.email && errors.email.message}
       
             <input
-              name="username"
+              name="firstName"
               ref={register({
                 validate: value => value !== "admin" || "Nice try!"
               })}
             />
-            {errors.username && errors.username.message}
+            {errors.firstName && errors.firstName.message}
       
             <Button type="submit" >Submit</Button>
           </form>
         );
     };
 
+    let modal = <Modal 
+                    show={showResult}
+                    modalClosed={stopShowingResult}>
+                    <FormSubmission formSubmissionResult={formSubmissionResult}/>
+                </Modal>
+    
+    if(loading) {
+      modal = <Spinner />
+    }
 
     return(
         <Aux>
-            <Modal 
-              show={showResult}
-              modalClosed={stopShowingResult}>
-                <FormSubmission formSubmissionResult={formSubmissionResult}/>
-            </Modal>
+            {modal}
             <UserForm />
         </Aux>
     )
