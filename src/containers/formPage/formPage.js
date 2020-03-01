@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
 import Modal from '../../components/UI/Modal/Modal';
 import FormSubmission from '../../components/FormSubmission/FormSubmission';
+import Button from '../../components/UI/Button/Button';
 
 
 
@@ -58,7 +59,7 @@ function FormPage() {
             />
             {errors.username && errors.username.message}
       
-            <button type="submit">Submit</button>
+            <Button type="submit" >Submit</Button>
           </form>
         );
     };
