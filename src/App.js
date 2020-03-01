@@ -1,12 +1,12 @@
 import React from 'react';
 import Layout from './components/Layout/Layout';
-import UserForm from './containers/userForm/userForm';
+import FormPage from './containers/formPage/formPage';
 
 function App() {
   return (
     <div className="App">
       <Layout>
-        <UserForm />
+        <FormPage />
       </Layout>
     </div>
   );
