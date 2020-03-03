@@ -6,7 +6,7 @@ import SearchPage from './containers/searchUser/searchUser';
 
 function App() {
   return (
-    <div className="App">
+    <div className="App" style={{boxSizing:"border-box"}}>
       <Layout>
         <Switch>
           <Route path="/search">

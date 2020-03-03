@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from '../../axios-form';
 
+import './formPage.css';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
 import Modal from '../../components/UI/Modal/Modal';
 import FormSubmission from '../../components/FormSubmission/FormSubmission';
@@ -25,20 +26,12 @@ function FormPage() {
     }
     
     const UserForm = () => {
+
         const { handleSubmit, register, errors } = useForm();
         const onSubmit = values => {
             setLoading(true);
             setShowResult(true);
-            values.middleName = "test";
-            values.lastName = "test";
-            values.mobileNumber = "1234567890";
-            values.address = "test test test";
-            values.city = "ahmedabad";
-            values.state = "guj";
-            values.postalCode = "123456";
-            values.education = "Graduate";
-            values.gender = "Female";
-            values.occupation = "Salaried";
+ 
             console.log(values);
             axios.post('/users', values).then((response) => {
               console.log(response);
@@ -50,38 +43,50 @@ function FormPage() {
                 setFormSubmissionResult(false);
               }
             }).catch((err) => {
+              setFormSubmissionResult(false)
               setLoading(false);
               console.log(err);
             })
-            // console.log(values["username"]);
+
             // console.log(formSubmissionResult);
             // //console.log(showResult);
         };
       
         return (
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <input
-              name="email"
-              ref={register({
-                required: 'Required',
-                pattern: {
-                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                  message: "invalid email address"
-                }
-              })}
-            />
-            {errors.email && errors.email.message}
-      
-            <input
-              name="firstName"
-              ref={register({
-                validate: value => value !== "admin" || "Nice try!"
-              })}
-            />
-            {errors.firstName && errors.firstName.message}
-      
-            <Button type="submit" >Submit</Button>
-          </form>
+          <div className="ContactData" >
+            <h4>Enter your Info</h4>
+              <form onSubmit={handleSubmit(onSubmit)}>
+              <input className="Input" type="text" placeholder="First name" name="firstName" ref={register({required: true, pattern:{value:/^[A-Za-z]+$/i, message: "Only alphabets are allowed" } })} />
+              <input className="Input" type="text" placeholder="Middle name" name="middleName" ref={register({pattern:{value:/^[A-Za-z]+$/i, message: "Only alphabets are allowed" } })} />
+              <input className="Input" type="text" placeholder="Last name" name="lastName" ref={register({required: true, pattern: {value:/^[A-Za-z]+$/i, message: "Only alphabets are allowed" } } )} />
+              <input className="Input" type="text" placeholder="Email" name="email" ref={register({required: true, pattern: /^\S+@\S+$/i})} />
+              <input className="Input" type="tel" placeholder="Mobile no" name="mobileNumber" ref={register({required: true, maxLength: 10, pattern: /[1-9]{2}\d{8}/i })} />
+              <textarea className="Input" name="address" placeholder="Enter Address" ref={register({maxLength: 100 })} />
+              <input className="Input" type="text" placeholder="City" name="city" ref={register({maxLength: 25})} />
+              <input className="Input" type="text" placeholder="State" name="state" ref={register({maxLength: 50})} />
+              <input className="Input" type="number" placeholder="Postal Code" name="postalCode" ref={register({pattern: /\d{6}/i })} />
+              <select name="education" ref={register}>
+                <option value="10th">10th</option>
+                <option value="12th">12th</option>
+                <option value="Graduate">Graduate</option>
+                <option value="Post Graduate">Post Graduate</option>
+                <option value="None">None</option>
+              </select>
+              <select name="gender" ref={register}>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Not Selected">Not Selected</option>
+              </select>
+              <select name="occupation " ref={register}>
+                <option value="Salaried">Salaried</option>
+                <option value="Self Employed">Self Employed</option>
+                <option value="Other">Other</option>
+              </select>
+
+              <Button type="submit">Submit</Button>
+            </form>
+          </div>
+          
         );
     };
 
