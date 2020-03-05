@@ -5,6 +5,14 @@ const formSubmissionResult = (props) => {
 
     let formResult;
 
+    if(props.searchModel) {
+        formResult = 
+            <Aux>
+                <p>User data is not found</p>
+            </Aux>
+        return formResult;
+    }
+
     if(props.formSubmissionResult) {
         formResult = 
             <Aux>

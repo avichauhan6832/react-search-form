@@ -4,9 +4,9 @@ import './NavigationItem.css';
 
 const navigationItem = ( props ) => (
     <li className="NavigationItem" ><NavLink 
-        exact="props.exact"
-        activeClassName="classes.active"
-        to="props.link" 
+        exact={props.exact}
+        activeClassName="active"
+        to={props.link} 
         >{ props.children }</NavLink></li>
 );
 

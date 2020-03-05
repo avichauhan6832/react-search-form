@@ -1,0 +1,35 @@
+.UserCard {
+    display: flex;
+    margin: 20px auto;
+    width: 95%;
+    height: 90px;
+    /* text-align: center; */
+    box-shadow: 0 2px 3px #ccc;
+    border: 1px solid #eee;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.UserImg {
+    width: 50px;
+    height: 50px;
+    margin: 10px 10px 0px 0px;
+}
+
+.UserCard p {
+    margin:5px 0px;
+    display: flex;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.UserCard div {
+    margin: 7px 0;
+}
+
+@media (min-width: 600px){
+    .UserCard{
+        width: 375px;
+    }
+}
