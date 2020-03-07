@@ -6,7 +6,7 @@ import './userCard.css';
 function Userard(props) {
     return (
        <div className="UserCard">
-           <img src={require(`../../assets/images/profile/${Math.floor(Math.random() * 3) + 1}.png`)} className="UserImg" alt="MyStar"/>
+           <img src={require(`../../assets/images/profile/${Math.floor(Math.random() * 3) + 1}.png`)} className="UserImg" alt={props.user.firstName}/>
            <div>
                 <p>{props.user.firstName} {props.user.lastName}</p>
                 <p style={{fontSize: "12px", marginTop:"10px"}}>{props.user.email}</p>

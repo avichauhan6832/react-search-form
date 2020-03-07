@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from '../../axios-form';
 
@@ -10,16 +10,12 @@ import Button from '../../components/UI/Button/Button';
 import Spinner from '../../components/UI/Spinner/Spinner';
 
 
-
+// container for form page
 function FormPage() {
 
-    let [formSubmissionResult, setFormSubmissionResult] = useState(false);
-    let [loading, setLoading] = useState(false);
-    let [showResult, setShowResult] = useState(false);
-
-    useEffect(() => {
-      console.log(showResult);
-    })
+    let [formSubmissionResult, setFormSubmissionResult] = useState(false); // Values that are submitted in the form
+    let [loading, setLoading] = useState(false); // Is page loading or not
+    let [showResult, setShowResult] = useState(false); // Is page ready to show the result of form submission - Submiited proprely or not
 
     const stopShowingResult = () => {
       setShowResult(false);
@@ -32,9 +28,9 @@ function FormPage() {
             setLoading(true);
             setShowResult(true);
  
-            console.log(values);
+            // console.log(values);
             axios.post('/users', values).then((response) => {
-              console.log(response);
+              // console.log(response);
               setLoading(false);
               if(response.status === 200)
               {
@@ -48,10 +44,9 @@ function FormPage() {
               console.log(err);
             })
 
-            // console.log(formSubmissionResult);
-            // //console.log(showResult);
         };
       
+        // Form based on react-hook-form https://react-hook-form.com/
         return (
           <div className="ContactData" >
             <h4>Enter your Info</h4>

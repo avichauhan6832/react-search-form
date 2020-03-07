@@ -7,34 +7,40 @@ import Modal from '../../components/UI/Modal/Modal';
 import FormSubmission from '../../components/FormSubmission/FormSubmission';
 import Button from '../../components/UI/Button/Button';
 import SearchList from '../../components/SearchList/searchList';
+import UserModal from '../../components/UserModal/userModal';
+import UserInfo from '../../components/UserModal/userInfo';
 
+// Search container
 function SearchPage() {
 
-  let [searchEntered, setSearchEntered] = useState(false);
-  let [foundAnyUser, setFoundAnyUser] = useState(false);
-  let [showNoUserFoundModel, setShowNoUserFoundModel] = useState(false);
-  let [usersResult, setUsersResult] = useState([]);
+  let [foundAnyUser, setFoundAnyUser] = useState(false); // Flag if any user found
+  let [showNoUserFoundModel, setShowNoUserFoundModel] = useState(false); // Flag to show model if no user found
+  let [usersResult, setUsersResult] = useState([]); // User result after search hit
+  let [userInfo, SetUserInfo] = useState(null); // User Info After click
+  let [showUserModel, setShowUserModel] = useState(false); // Flag to show user model
 
   const stopShowingModel = () => {
     setShowNoUserFoundModel(false);
+  }
+
+  const stopShowingUserInfoModel = () => {
+    setShowUserModel(false);
   }
 
     const SearchUser = () => {
 
         const { handleSubmit, register, errors } = useForm();
         const onSubmit = values => {
-          console.log(values);
-          setSearchEntered(true);
+          // console.log(values);
 
           axios.get(`/search/?input=${values.username}`).then((response) => {
-            console.log(response);
+            // console.log(response);
             if(response.data.length > 0) {
               setFoundAnyUser(true);
               setUsersResult(response.data);
             } else {
               setShowNoUserFoundModel(true);
             }
-            // response.data.length > 0 ? setFoundAnyUser(true) : setShowNoUserFoundModel(true);
             
           }).catch((err) => {
             console.log(err);
@@ -42,7 +48,7 @@ function SearchPage() {
 
         };
 
-        console.log(foundAnyUser);
+        // console.log(foundAnyUser);
         return (
           <div className="ContactData">
             <h4>Enter First name or Last name of the user that you want to search.</h4>
@@ -70,10 +76,17 @@ function SearchPage() {
             modalClosed={stopShowingModel}>
             <FormSubmission searchModel={true} />
           </Modal>
-            <SearchUser />
-            <SearchList 
-              users={usersResult}
-              show={foundAnyUser}/>
+          <UserModal
+            show={showUserModel}
+            modalClosed={stopShowingUserInfoModel}>
+            <UserInfo user={userInfo}/>
+          </UserModal>
+          <SearchUser />
+          <SearchList
+            setUserInfo={SetUserInfo}
+            showModel={setShowUserModel} 
+            users={usersResult}
+            show={foundAnyUser}/>
         </Aux>
     )
 }
